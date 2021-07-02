@@ -9,6 +9,8 @@ import usuario.cadastrar.spring_boot.repository.PessoaRepository;
 import usuario.cadastrar.spring_boot.pessoa.MessageResponseDTO;
 import usuario.cadastrar.spring_boot.request.PessoaDTO;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping ("/api/v1/usuario")
@@ -30,6 +32,16 @@ public class usuario_controller {
 
     }
 
+    @GetMapping
+    public List<PessoaDTO> listAll(){
+
+        return pessoaService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PessoaDTO findById(@PathVariable Long id){
+        return pessoaService.findById(id);
+    }
 
 
 }

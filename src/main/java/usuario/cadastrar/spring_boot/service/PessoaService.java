@@ -5,9 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import usuario.cadastrar.spring_boot.entity.Pessoa;
+import usuario.cadastrar.spring_boot.exception.PessoaNotFoundException;
 import usuario.cadastrar.spring_boot.mapper.PessoaMapper;
 import usuario.cadastrar.spring_boot.repository.PessoaRepository;
 import usuario.cadastrar.spring_boot.request.PessoaDTO;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PessoaService {
@@ -25,7 +30,7 @@ public class PessoaService {
     @PostMapping
     public MessageResponseDTO createPessoa(PessoaDTO pessoaDTO){
       Pessoa pessoaToSave = pessoaMapper.toModel(pessoaDTO);
-      
+
 
 
 
@@ -35,5 +40,21 @@ public class PessoaService {
                 .builder()
                 .message("Created person with ID" + savedPessoa.getId())
                 .build();
+    }
+
+    public List<PessoaDTO> listAll(){
+      List<Pessoa> allPessoa = pessoaRepository.findAll() ;
+      return  allPessoa.stream()
+              .map(pessoaMapper::toDTO);
+              .collect(Collectors.toList());
+    }
+
+    public PessoaDTO findById(Long id){
+        Optional<Pessoa> optionalPessoa = pessoaRepository.findById();
+        if(optionalPessoa.isEmpty()){
+            //para verificar se existe a pessoa informada
+            throw new PessoaNotFoundException(id);
+        }
+        return  pessoaMapper.toDTO(optionalPessoa.get());
     }
 }
