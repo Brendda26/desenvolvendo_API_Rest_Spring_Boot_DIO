@@ -1,10 +1,9 @@
 package usuario.cadastrar.spring_boot.mapper;
 
-import javax.persistence.MappedSuperclass;
 import org.mapstruct.factory.Mappers;
 import org.mapstruct.Mapper;
 import org.springframework.web.bind.annotation.Mapping;
-import usuario.cadastrar.spring_boot.request.PessoaDTO;
+import usuario.cadastrar.spring_boot.dto.request.PessoaDTO;
 
 @Mapper
 public class PessoaMapper {

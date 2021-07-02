@@ -1,6 +1,5 @@
-package usuario.cadastrar.spring_boot.request;
+package usuario.cadastrar.spring_boot.dto.request;
 
-import com.sun.istack.Interned;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

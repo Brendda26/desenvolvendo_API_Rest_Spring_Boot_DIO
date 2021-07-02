@@ -1,4 +1,4 @@
-package usuario.cadastrar.spring_boot.request;
+package usuario.cadastrar.spring_boot.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
