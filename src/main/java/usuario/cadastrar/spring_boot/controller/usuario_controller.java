@@ -1,14 +1,13 @@
 package usuario.cadastrar.spring_boot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import usuario.cadastrar.spring_boot.entity.Pessoa;
 import usuario.cadastrar.spring_boot.repository.PessoaRepository;
 import usuario.cadastrar.spring_boot.pessoa.MessageResponseDTO;
+import usuario.cadastrar.spring_boot.request.PessoaDTO;
 
 
 @RestController
@@ -16,21 +15,19 @@ import usuario.cadastrar.spring_boot.pessoa.MessageResponseDTO;
 
 public class usuario_controller {
 
-    private PessoaRepository pessoaRepository;
+    private PessoaRepository pessoaService;
 
     @Autowired
-    public usuario_controller(PessoaRepository pessoaRepository) {
-        this.pessoaRepository = pessoaRepository;
+    public usuario_controller(PessoaRepository pessoaServise) {
+        this.pessoaService = pessoaService;
     }
 
     @PostMapping
-    public MessageResponseDTO createPessoa(@RequestBody Pessoa pessoa){
-        Pessoa savedPessoa = pessoaRepository.save(pessoa);
-       //criação de usuário
-        return  MessageResponseDTO
-                .builder()
-                .message("Created pessoa with ID" + savedPessoa.getId())
-                .build();
+    @ResponseStatus(HttpStatus.CREATED)
+    //validar o usuario
+    public MessageResponseDTO createPessoa(@RequestBody @Valid PessoaDTO pessoaDTO){
+        return pessoaService.createPessoa(pessoaDTO);
+
     }
 
 
