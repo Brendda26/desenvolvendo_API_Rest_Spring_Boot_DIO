@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import usuario.cadastrar.spring_boot.entity.Pessoa;
+import usuario.cadastrar.spring_boot.exception.PessoaNotFoundException;
 import usuario.cadastrar.spring_boot.repository.PessoaRepository;
 import usuario.cadastrar.spring_boot.pessoa.MessageResponseDTO;
 import usuario.cadastrar.spring_boot.request.PessoaDTO;
@@ -40,7 +41,14 @@ public class usuario_controller {
 
     @GetMapping("/{id}")
     public PessoaDTO findById(@PathVariable Long id){
+
         return pessoaService.findById(id);
+    }
+
+    @DeleteMapping("{/id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws PessoaNotFoundException{
+        pessoaService.delete(id);
     }
 
 

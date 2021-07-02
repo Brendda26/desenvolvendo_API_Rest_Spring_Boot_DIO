@@ -10,6 +10,7 @@ import usuario.cadastrar.spring_boot.mapper.PessoaMapper;
 import usuario.cadastrar.spring_boot.repository.PessoaRepository;
 import usuario.cadastrar.spring_boot.request.PessoaDTO;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,11 +51,22 @@ public class PessoaService {
     }
 
     public PessoaDTO findById(Long id){
-        Optional<Pessoa> optionalPessoa = pessoaRepository.findById();
-        if(optionalPessoa.isEmpty()){
-            //para verificar se existe a pessoa informada
-            throw new PessoaNotFoundException(id);
-        }
-        return  pessoaMapper.toDTO(optionalPessoa.get());
+        Pessoa pessoa = pessoaRepository.findById(id)
+            .orElseThrow(()-> new PessoaNotFoundException(id));
+
+
+        return  pessoaMapper.toDTO(pessoa);
     }
+
+    private Pessoa verifyIfExists(Long id) throws PessoaNotFoundException{
+      return pessoaRepository-findById(id)
+              .orElseThrow(()-> new PessoaNotFoundException(id));
+    }
+
+    public void delete(Long id) throws PessoaNotFoundException{
+      verifyIfExists(id);
+
+      pessoaRepository.deleteById(id);
+    }
+
 }
